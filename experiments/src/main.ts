@@ -15,8 +15,26 @@ const declarations: CodeDeclarations = {
   imports: new Set(),
   variables: new Map(),
 }
-const { imports, variables } = declarations
 const staticBuilders = getStaticBuilder(metadata.metadata.value, declarations)
+
+const CONSTANTS = [
+  "BlockWeights",
+  "BlockLength",
+  "BlockHashCount",
+  "DbWeight",
+  "Version",
+  "SS58Prefix",
+]
+
+for (const constant of CONSTANTS) {
+  staticBuilders.buildConstant("System", constant)
+}
+
+console.log(declarations.imports)
+
+////////////////
+
+/* 
 const checksumBuilders = getChecksumBuilder(metadata.metadata.value)
 
 const start = Date.now()
@@ -52,3 +70,4 @@ constDeclarations.unshift(
 )
 
 console.log(constDeclarations.join("\n\n"))
+ */
