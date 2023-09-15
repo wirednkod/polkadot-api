@@ -4,7 +4,7 @@ import {
   getStaticBuilder,
 } from "@polkadot-api/substrate-codegen"
 import { getMetadata } from "./getMetadata"
-
+import { fromHex } from "@polkadot-api/utils"
 const metadata = await getMetadata()
 
 if (metadata.metadata.tag !== "v14") throw new Error("wrong metadata version")
