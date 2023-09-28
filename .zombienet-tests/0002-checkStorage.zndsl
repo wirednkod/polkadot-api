@@ -1,5 +1,5 @@
 Description: Simple Parachain Smoke Test
-Network: ./0002-parachain.toml
+Network: ./0002-checkStorage.toml
 Creds: config
 
 alice: is up
