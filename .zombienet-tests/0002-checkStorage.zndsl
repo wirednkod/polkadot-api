@@ -4,4 +4,4 @@ Creds: config
 
 alice: is up
 bob: is up
-bob: ts-script ./0002-checkSync.ts within 140 seconds
+bob: ts-script ./0002-checkStorage.ts within 140 seconds
