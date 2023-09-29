@@ -49,7 +49,6 @@ export async function run(_nodeName: string, networkInfo: any) {
                   console.log("-------> result: ", result)
                   aliceBalance = result?.data?.free
                   console.log("-------> aliceBalance: ", aliceBalance)
-                  chainHeadFollower.unfollow()
                 })
             }
 
