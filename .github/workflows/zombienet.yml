@@ -42,4 +42,4 @@ jobs:
           export PATH=$(pwd):$PATH
           tsc .zombienet-tests/utils.ts || true
           ./zombienet-linux-x64 -p native test ./.zombienet-tests/0001-relay-smoke-test.zndsl
-          ./zombienet-linux-x64 -p native test ./.zombienet-tests/0002-checkBalance.zndsl
+          ./zombienet-linux-x64 -p native test ./.zombienet-tests/0002-check-balance.zndsl

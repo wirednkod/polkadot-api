@@ -1,5 +1,5 @@
 Description: Simple Parachain Smoke Test
-Network: ./0002-check-against-specs.toml
+Network: ./0002-check-balance.toml
 Creds: config
 
 alice: is up
