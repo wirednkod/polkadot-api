@@ -56,7 +56,11 @@ export async function run(_nodeName: string, networkInfo: any) {
             aliceBalance,
             typeof aliceBalance,
           )
-          resolve(chainHeadFollower.unfollow())
+          if (aliceBalance === "1000000000000000000n") {
+            resolve(chainHeadFollower.unfollow())
+          } else {
+            reject("meh")
+          }
         }
 
         chainHeadFollower.unpin([latestFinalized])
@@ -64,5 +68,5 @@ export async function run(_nodeName: string, networkInfo: any) {
       reject,
     )
   })
-  return aliceBalance
+  return 1
 }
