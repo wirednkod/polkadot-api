@@ -2,7 +2,7 @@ import { Tuple, compact, metadata } from "../packages/substrate-bindings/dist"
 import { getDynamicBuilder } from "../packages/substrate-codegen/dist"
 import { connect } from "./utils"
 
-const ALICE_STASH = "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
+const ALICE = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
 
 export async function run(_nodeName: string, networkInfo: any) {
   const { chainHead } = await connect(networkInfo)
@@ -38,20 +38,24 @@ export async function run(_nodeName: string, networkInfo: any) {
             "Account",
           )
           // make the storage call with the storageAccount.enc()
-          console.log("storageAccount", storageAccount.enc(ALICE_STASH))
+          console.log("storageAccount", storageAccount.enc(ALICE))
           console.log("latestFinalized", latestFinalized)
 
           let result = await chainHeadFollower.storage(
             latestFinalized,
             "value",
-            storageAccount.enc(ALICE_STASH),
+            storageAccount.enc(ALICE),
             null,
           )
           console.log("-------> some: ", result)
           let result2 = storageAccount.dec(result as string)
           console.log("-------> result: ", result2)
-          aliceBalance = result2?.data?.free as string
-          console.log("-------> aliceBalance: ", aliceBalance)
+          aliceBalance = result2?.data?.free?.toString()
+          console.log(
+            "-------> aliceBalance: ",
+            aliceBalance,
+            typeof aliceBalance,
+          )
           resolve(chainHeadFollower.unfollow())
         }
 
