@@ -1,6 +1,7 @@
 import { Tuple, compact, metadata } from "../packages/substrate-bindings/dist"
 import { getDynamicBuilder } from "../packages/substrate-codegen/dist"
 import { connect } from "./utils"
+import { BigNumber } from "bignumber.js"
 
 const ALICE = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
 
@@ -9,7 +10,7 @@ export async function run(_nodeName: string, networkInfo: any) {
 
   const opaqueMeta = Tuple(compact, metadata)
 
-  let aliceBalance: string = ""
+  let aliceBalance = new BigNumber(0)
 
   await new Promise(async (resolve, reject) => {
     let requested = false
@@ -48,12 +49,9 @@ export async function run(_nodeName: string, networkInfo: any) {
             null,
           )
           let result2 = storageAccount.dec(result as string)
-          aliceBalance = result2?.data?.free?.toString()
-          if (aliceBalance === "1000000000000000000") {
-            resolve(chainHeadFollower.unfollow())
-          } else {
-            reject(chainHeadFollower.unfollow())
-          }
+          aliceBalance = new BigNumber(result2?.data?.free)
+          console.log("aliceBalance", aliceBalance)
+          resolve(chainHeadFollower.unfollow())
         }
 
         chainHeadFollower.unpin([latestFinalized])
@@ -61,5 +59,5 @@ export async function run(_nodeName: string, networkInfo: any) {
       reject,
     )
   })
-  return 1
+  return aliceBalance
 }
