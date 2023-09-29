@@ -1,7 +1,16 @@
+import {
+  Storage,
+  u32,
+  // AccountId,
+  // Struct,
+  // Twox64Concat,
+  // Vector,
+} from "../packages/substrate-bindings"
+
 import { connect } from "./utils"
 
 export async function run(nodeName: string, networkInfo: any) {
-  const { chainHead } = await connect(nodeName, networkInfo, "100")
+  const { chainHead } = await connect(nodeName, networkInfo)
   let count = 0
 
   await new Promise(async (resolve, reject) => {
@@ -17,6 +26,11 @@ export async function run(nodeName: string, networkInfo: any) {
         const latestFinalized = event.finalizedBlockHash
         requested = true
 
+        const stakingStorage = Storage("Staking")
+        const currentEra = stakingStorage("CurrentEra", u32.dec)
+
+        console.log(`-------------> : ${currentEra}`)
+
         chainHeadFollower
           .storage(
             latestFinalized,
@@ -25,7 +39,7 @@ export async function run(nodeName: string, networkInfo: any) {
             null,
           )
           .then((some) => {
-            console.log("-------> ", some)
+            // console.log("-------> ", some)
             resolve(chainHeadFollower.unfollow())
           })
           .catch((err) => console.log("eRR", err))
