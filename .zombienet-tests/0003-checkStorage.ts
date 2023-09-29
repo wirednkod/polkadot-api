@@ -25,6 +25,7 @@ export async function run(_nodeName: string, networkInfo: any) {
         const latestFinalized = event.finalizedBlockHash
         requested = true
 
+        // Call metadata
         let response = await chainHeadFollower.call(
           latestFinalized,
           "Metadata_metadata",
@@ -38,10 +39,6 @@ export async function run(_nodeName: string, networkInfo: any) {
             "System",
             "Account",
           )
-          // make the storage call with the storageAccount.enc()
-          console.log("storageAccount", storageAccount.enc(ALICE))
-          console.log("latestFinalized", latestFinalized)
-
           let result = await chainHeadFollower.storage(
             latestFinalized,
             "value",
