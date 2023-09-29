@@ -1,7 +1,0 @@
-Description: Simple Parachain Smoke Test
-Network: ./0002-checkStorage.toml
-Creds: config
-
-alice: is up
-bob: is up
-bob: ts-script ./0002-checkStorage.ts within 140 seconds
