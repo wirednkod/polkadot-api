@@ -9,7 +9,7 @@ export async function run(_nodeName: string, networkInfo: any) {
 
   const opaqueMeta = Tuple(compact, metadata)
 
-  let aliceBalance: number = 0
+  let aliceBalance: string = ""
 
   await new Promise(async (resolve, reject) => {
     let requested = false
@@ -50,7 +50,7 @@ export async function run(_nodeName: string, networkInfo: any) {
           console.log("-------> some: ", result)
           let result2 = storageAccount.dec(result as string)
           console.log("-------> result: ", result2)
-          aliceBalance = result2?.data?.free
+          aliceBalance = result2?.data?.free as string
           console.log("-------> aliceBalance: ", aliceBalance)
           resolve(chainHeadFollower.unfollow())
         }
