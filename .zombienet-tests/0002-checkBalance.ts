@@ -52,7 +52,7 @@ export async function run(_nodeName: string, networkInfo: any) {
           if (aliceBalance === "1000000000000000000") {
             resolve(chainHeadFollower.unfollow())
           } else {
-            reject("meh")
+            reject(chainHeadFollower.unfollow())
           }
         }
 
