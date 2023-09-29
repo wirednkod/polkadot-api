@@ -47,16 +47,9 @@ export async function run(_nodeName: string, networkInfo: any) {
             storageAccount.enc(ALICE),
             null,
           )
-          console.log("-------> some: ", result)
           let result2 = storageAccount.dec(result as string)
-          console.log("-------> result: ", result2)
           aliceBalance = result2?.data?.free?.toString()
-          console.log(
-            "-------> aliceBalance: ",
-            aliceBalance,
-            typeof aliceBalance,
-          )
-          if (aliceBalance === "1000000000000000000n") {
+          if (aliceBalance === "1000000000000000000") {
             resolve(chainHeadFollower.unfollow())
           } else {
             reject("meh")
