@@ -1,7 +1,5 @@
 import { Tuple, compact, metadata } from "../packages/substrate-bindings/dist"
-import { getDynamicBuilder } from "../packages/substrate-codegen/dist"
 import { connect } from "./utils"
-import { BigNumber } from "bignumber.js"
 
 const ALICE = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
 
