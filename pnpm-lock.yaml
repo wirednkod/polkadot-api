@@ -175,13 +175,13 @@ importers:
       '@polkadot-api/substrate-codegen':
         specifier: workspace:*
         version: link:../substrate-codegen
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.1
     devDependencies:
       '@vitest/coverage-v8':
         specifier: ^0.34.3
         version: 0.34.4(vitest@0.34.4)
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.1
 
   packages/json-rpc-provider: {}
 
