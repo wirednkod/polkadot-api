@@ -1,6 +1,8 @@
 import { connect } from "./utils"
 
 export async function run(nodeName: string, networkInfo: any) {
+  console.log("NODENAME", nodeName)
+  console.log("NETWORKINFO!!!", networkInfo)
   const { chainHead } = await connect(nodeName, networkInfo)
   let count = 0
 
