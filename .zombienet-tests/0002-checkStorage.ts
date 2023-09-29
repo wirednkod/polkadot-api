@@ -29,7 +29,8 @@ export async function run(nodeName: string, networkInfo: any) {
         const stakingStorage = Storage("Staking")
         const currentEra = stakingStorage("CurrentEra", u32.dec)
 
-        console.log(`-------------> : ${currentEra}`)
+        console.log(`----- 1 --------> : ${JSON.stringify(currentEra)}`)
+        console.log(`----- 2 --------> : ${currentEra.enc()}`)
 
         chainHeadFollower
           .storage(
