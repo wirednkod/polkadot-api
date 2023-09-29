@@ -2,7 +2,7 @@ import { Tuple, compact, metadata } from "../packages/substrate-bindings/dist"
 import { getDynamicBuilder } from "../packages/substrate-codegen/dist"
 import { connect } from "./utils"
 
-const ALICE = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+const ALICE_STASH = "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"
 
 export async function run(_nodeName: string, networkInfo: any) {
   const { chainHead } = await connect(networkInfo)
@@ -38,13 +38,13 @@ export async function run(_nodeName: string, networkInfo: any) {
             "Account",
           )
           // make the storage call with the storageAccount.enc()
-          console.log("storageAccount", storageAccount.enc(ALICE))
+          console.log("storageAccount", storageAccount.enc(ALICE_STASH))
           console.log("latestFinalized", latestFinalized)
 
           let result = await chainHeadFollower.storage(
             latestFinalized,
             "value",
-            storageAccount.enc(ALICE),
+            storageAccount.enc(ALICE_STASH),
             null,
           )
           console.log("-------> some: ", result)
