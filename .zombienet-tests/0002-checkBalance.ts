@@ -15,7 +15,7 @@ export async function run(_nodeName: string, networkInfo: any) {
     let requested = false
     const chainHeadFollower = chainHead(
       true,
-      (event) => {
+      async (event) => {
         if (event.type === "newBlock") {
           chainHeadFollower.unpin([event.blockHash])
           return
@@ -24,36 +24,37 @@ export async function run(_nodeName: string, networkInfo: any) {
         const latestFinalized = event.finalizedBlockHash
         requested = true
 
-        chainHeadFollower
-          .call(latestFinalized, "Metadata_metadata", "")
-          .then((response) => {
-            const [, metadata] = opaqueMeta.dec(response)
-            if (metadata.metadata.tag === "v14") {
-              const dynamicBuilder = getDynamicBuilder(metadata.metadata.value)
-              const storageAccount = dynamicBuilder.buildStorage(
-                "System",
-                "Account",
-              )
-              // make the storage call with the storageAccount.enc()
-              console.log("storageAccount", storageAccount.enc(ALICE))
-              chainHeadFollower
-                .storage(
-                  latestFinalized,
-                  "value",
-                  storageAccount.enc(ALICE),
-                  null,
-                )
-                .then((some) => {
-                  console.log("-------> some: ", some)
-                  let result = storageAccount.dec(some as string)
-                  console.log("-------> result: ", result)
-                  aliceBalance = result?.data?.free
-                  console.log("-------> aliceBalance: ", aliceBalance)
-                  resolve(chainHeadFollower.unfollow())
-                })
-            }
-          })
-          .catch((err) => console.log("error", err))
+        let response = await chainHeadFollower.call(
+          latestFinalized,
+          "Metadata_metadata",
+          "",
+        )
+
+        const [, metadata] = opaqueMeta.dec(response)
+        if (metadata.metadata.tag === "v14") {
+          const dynamicBuilder = getDynamicBuilder(metadata.metadata.value)
+          const storageAccount = dynamicBuilder.buildStorage(
+            "System",
+            "Account",
+          )
+          // make the storage call with the storageAccount.enc()
+          console.log("storageAccount", storageAccount.enc(ALICE))
+          console.log("latestFinalized", latestFinalized)
+
+          let result = await chainHeadFollower.storage(
+            latestFinalized,
+            "value",
+            storageAccount.enc(ALICE),
+            null,
+          )
+          console.log("-------> some: ", result)
+          let result2 = storageAccount.dec(result as string)
+          console.log("-------> result: ", result2)
+          aliceBalance = result2?.data?.free
+          console.log("-------> aliceBalance: ", aliceBalance)
+          resolve(chainHeadFollower.unfollow())
+        }
+
         chainHeadFollower.unpin([latestFinalized])
       },
       reject,
