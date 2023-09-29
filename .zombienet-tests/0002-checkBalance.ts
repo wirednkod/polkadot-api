@@ -49,10 +49,9 @@ export async function run(_nodeName: string, networkInfo: any) {
                   console.log("-------> result: ", result)
                   aliceBalance = result?.data?.free
                   console.log("-------> aliceBalance: ", aliceBalance)
+                  resolve(chainHeadFollower.unfollow())
                 })
             }
-
-            resolve(chainHeadFollower.unfollow())
           })
           .catch((err) => console.log("error", err))
         chainHeadFollower.unpin([latestFinalized])
