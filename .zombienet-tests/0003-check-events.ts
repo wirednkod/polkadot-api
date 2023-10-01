@@ -22,8 +22,8 @@ export async function run(_nodeName: string, networkInfo: any) {
         console.log("event", event.type)
 
         if (!newBlock && event.type === "newBlock" && ++newBlockCount === 2) {
-          chainHeadFollower.unpin([event.blockHash])
           newBlock = true
+          chainHeadFollower.unpin([event.blockHash])
           return
         }
 
@@ -50,7 +50,9 @@ export async function run(_nodeName: string, networkInfo: any) {
           return
         }
 
-        resolve(chainHeadFollower.unfollow())
+        if (finalized && newBlock && bestBlock) {
+          resolve(chainHeadFollower.unfollow())
+        }
       },
       reject,
     )
