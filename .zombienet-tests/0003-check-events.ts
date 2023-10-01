@@ -21,30 +21,36 @@ export async function run(_nodeName: string, networkInfo: any) {
       (event) => {
         console.log("event", event.type)
 
-        if (event.type === "newBlock" && ++newBlockCount === 2) {
+        if (!newBlock && event.type === "newBlock" && ++newBlockCount === 2) {
           chainHeadFollower.unpin([event.blockHash])
           newBlock = true
           return
         }
 
-        if (initialized || event.type === "initialized") {
+        if (!initialized && event.type === "initialized") {
           initialized = true
           return
         }
 
-        if (event.type === "finalized" && ++finalizedCount === 2) {
+        if (
+          event.type === "finalized" &&
+          !finalized &&
+          ++finalizedCount === 2
+        ) {
           finalized = true
-        }
-
-        if (event.type === "bestBlockChanged" && ++bestBlockCount === 5) {
-          bestBlock = true
-        }
-
-        if (finalized && newBlock && bestBlock) {
-          resolve(chainHeadFollower.unfollow())
-        } else {
           return
         }
+
+        if (
+          event.type === "bestBlockChanged" &&
+          !bestBlock &&
+          ++bestBlockCount === 5
+        ) {
+          bestBlock = true
+          return
+        }
+
+        resolve(chainHeadFollower.unfollow())
       },
       reject,
     )
