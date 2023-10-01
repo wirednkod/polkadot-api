@@ -22,6 +22,7 @@ await new Promise(async (resolve, reject) => {
   const chainHeadFollower = chainHead(
     true,
     (event) => {
+      console.log("EVENT ===> ", event.type)
       if (event.type === "newBlock") {
         chainHeadFollower.unpin([event.blockHash])
         return
