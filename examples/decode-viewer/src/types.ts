@@ -1,9 +1,15 @@
 import type {
-  Decoder,
   HexString,
   StringRecord,
+  Decoder,
   V14,
 } from "@polkadot-api/substrate-bindings"
+
+// export type StringRecord<T> = {
+//   [Sym: symbol]: never
+//   [Num: number]: never
+//   [Str: string]: T
+// }
 
 export type GetViewBuilder = (metadata: V14) => {
   buildDefinition: (idx: number) => {
@@ -77,16 +83,6 @@ export type AccountIdDecoded = WithInput<{
   }
 }>
 
-export type PrimitiveDecoded =
-  | VoidDecoded
-  | BoolDecoded
-  | StringDecoded
-  | NumberDecoded
-  | BigNumberDecoded
-  | BitSequenceDecoded
-  | BytesDecoded
-  | AccountIdDecoded
-
 export interface SequenceShape {
   codec: "Sequence"
   inner: Shape
@@ -113,14 +109,24 @@ export interface EnumShape {
   inner: StringRecord<Shape>
 }
 
+export type Shape = { codec: PrimitiveDecoded["codec"] } | ComplexShape
+
+export type PrimitiveDecoded =
+  | VoidDecoded
+  | BoolDecoded
+  | StringDecoded
+  | NumberDecoded
+  | BigNumberDecoded
+  | BitSequenceDecoded
+  | BytesDecoded
+  | AccountIdDecoded
+
 export type ComplexShape =
   | SequenceShape
   | ArrayShape
   | TupleShape
   | StructShape
   | EnumShape
-
-export type Shape = { codec: PrimitiveDecoded["codec"] } | ComplexShape
 
 export interface SequenceDecoded extends WithInput<SequenceShape> {
   value: Array<Decoded>
@@ -153,3 +159,17 @@ export type ComplexDecoded =
   | EnumDecoded
 
 export type Decoded = PrimitiveDecoded | ComplexDecoded
+
+// export declare const DecodedViewer = React.FC<Decoded>
+
+// export declare const CallDecodedViewer = React.FC<{
+//   pallet: {
+//     value: { name: string; idx: number }
+//     input: HexString
+//   }
+//   call: {
+//     value: { name: string; idx: number }
+//     input: HexString
+//   }
+//   args: StructDecoded
+// }>
