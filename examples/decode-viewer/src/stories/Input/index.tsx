@@ -25,15 +25,15 @@ type NotSoSimpleType =
   | BytesArrayDecoded["codec"]
   | AccountIdDecoded["codec"]
 
-interface InputProps extends SimpleInputProps {
+interface InputProps {
   codec: SimpleType | NotSoSimpleType
 }
 
-interface SimpleInputProps extends CommonProps {
+interface SimpleInputProps {
   label: string
   value: any
   len?: number
-  error?: boolean
+  smaller?: boolean
 }
 
 interface CommonProps {
@@ -41,40 +41,49 @@ interface CommonProps {
   path: string[]
 }
 
-const withHexInput = (
-  input: string | number | readonly string[] | undefined,
-  path: any[],
-) => {
+type FullProps = InputProps & SimpleInputProps & CommonProps
+
+const withHexInput = ({ input, path }: CommonProps) => {
   const [show, setShow] = useState<boolean>(false)
   return (
-    <>
-      <div style={{ display: show ? "block" : "none" }}>
-        <input value={input}></input>
-        <input value={path?.join("/")}></input>
-      </div>
-      <button onClick={() => setShow(!show)}>show</button>
-    </>
+    (input || path?.length) && (
+      <>
+        <div
+          style={{
+            display: show ? "block" : "none",
+            margin: "0.5rem 0 0 1rem",
+          }}
+        >
+          {input && <SimpleInput value={input} label={"input"} smaller />}
+          {path?.length && (
+            <SimpleInput value={path?.join("/")} label={"path"} smaller />
+          )}
+        </div>
+        <button className="show-button" onClick={() => setShow(!show)}>
+          show
+        </button>
+      </>
+    )
   )
 }
 
-const SimpleInput = ({ label, value, error = false }: SimpleInputProps) => (
-  <div className="custom-input-wrapper">
+const SimpleInput = ({ label, value, smaller }: SimpleInputProps) => (
+  <div className={`custom-input-wrapper${smaller ? " smaller" : ""}`}>
     {label && <div className="label">{label}</div>}
     <input disabled id={Math.random().toString()} value={value} />
-    {error && <p className="error">Input filed can't be empty!</p>}
   </div>
 )
 
-const Component = ({
+export const Input: FC<FullProps> = ({
   codec,
   value,
   len,
   input,
   path,
   label,
-  error,
-}: InputProps) => {
+}: FullProps) => {
   let inputValue = value
+  console.log(input, path)
 
   switch (codec) {
     // Here are Simple components that needs more than one input
@@ -91,10 +100,8 @@ const Component = ({
                 {...{ input, path }}
               />
             ))}
-            {error && <p className="error">Input filed can't be empty!</p>}
-            {/* TODO: Fix the following */}
           </div>
-          {withHexInput(input, path)}
+          {withHexInput({ input, path })}
         </>
       )
     }
@@ -108,8 +115,7 @@ const Component = ({
         <div className="multiple">
           <SimpleInput label={label} value={inputValue} {...{ input, path }} />
           <SimpleInput label={"len"} value={len} {...{ input, path }} />
-          {/* TODO: Fix the following */}
-          {withHexInput(input, path)}
+          {withHexInput({ input, path })}
         </div>
       )
     }
@@ -135,12 +141,7 @@ const Component = ({
   return (
     <>
       <SimpleInput label={label} value={inputValue} {...{ input, path }} />
-      {/* TODO: Fix the following */}
-      {withHexInput(input, path)}
+      {withHexInput({ input, path })}
     </>
   )
-}
-
-export const Input: FC<InputProps> = (props: InputProps) => {
-  return Component(props)
 }
