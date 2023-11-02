@@ -3,7 +3,6 @@ import "./App.css"
 import { useEffect, useState } from "react"
 // import sampleData from "./sample.json"
 import { _void, str, Struct } from "@polkadot-api/substrate-bindings"
-import { ComplexDecoded, EnumDecoded } from "./types"
 
 export const App = () => {
   const [typed, setTyped] = useState<string | undefined>()
@@ -11,15 +10,12 @@ export const App = () => {
   useEffect(() => {}, [])
   return (
     <>
-      <h1>Vite + React</h1>
       <Input
-        onChange={(e) => {
-          console.log(e.target.value)
-          setTyped(e.target.value)
-        }}
+        codec={"_void"}
         label={""}
-        value={typed}
-        type={undefined}
+        value={undefined}
+        input={""}
+        path={[]}
       />
     </>
   )

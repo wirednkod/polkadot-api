@@ -26,11 +26,19 @@ export const Primary: Story = {
   },
 }
 
-export const Secondary: Story = {
+export const u32: Story = {
   args: {
-    label: "A Secondary input",
-    value: "456",
-    codec: "str",
+    label: "number",
+    value: 1,
+    codec: "u32",
+  },
+}
+
+export const u16: Story = {
+  args: {
+    label: "number",
+    value: 8417,
+    codec: "u16",
   },
 }
 
