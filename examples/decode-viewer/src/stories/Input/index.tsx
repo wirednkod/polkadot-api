@@ -39,15 +39,20 @@ interface SimpleInputProps {
 
 interface CommonProps {
   input: string
+  meta?: MetaProps
+}
+
+interface MetaProps {
   path: string[]
+  docs: string
 }
 
 type FullProps = InputProps & SimpleInputProps & CommonProps
 
-const withHexInput = ({ input, path }: CommonProps) => {
+const extraInput = ({ input, meta }: CommonProps) => {
   const [show, setShow] = useState<boolean>(false)
   return (
-    (input || path?.length) && (
+    (input || meta?.docs || meta?.path) && (
       <>
         <div
           style={{
@@ -56,12 +61,15 @@ const withHexInput = ({ input, path }: CommonProps) => {
           }}
         >
           {input && <SimpleInput value={input} label={"input"} smaller />}
-          {path?.length && (
-            <SimpleInput value={path?.join("/")} label={"path"} smaller />
+          {meta?.path?.length && (
+            <SimpleInput value={meta?.path?.join("/")} label={"path"} smaller />
+          )}
+          {meta?.docs?.length && (
+            <SimpleInput value={meta?.docs} label={"path"} smaller />
           )}
         </div>
         <button className="show-button" onClick={() => setShow(!show)}>
-          {show ? "Show" : "Hide"}
+          {show ? "Hide" : "Show"}
         </button>
       </>
     )
@@ -80,11 +88,11 @@ export const Input: FC<FullProps> = ({
   value,
   len,
   input,
-  path,
+  meta,
   label,
 }: FullProps) => {
   let inputValue = value
-  console.log(input, path)
+  console.log(input, meta)
 
   switch (codec) {
     // Here are Simple components that needs more than one input
@@ -98,11 +106,11 @@ export const Input: FC<FullProps> = ({
               <SimpleInput
                 label={entry[0]}
                 value={entry[1]}
-                {...{ input, path }}
+                {...{ input, meta }}
               />
             ))}
           </div>
-          {withHexInput({ input, path })}
+          {extraInput({ input, meta })}
         </>
       )
     }
@@ -114,9 +122,9 @@ export const Input: FC<FullProps> = ({
     case "BytesArray": {
       return (
         <div className="multiple">
-          <SimpleInput label={label} value={inputValue} {...{ input, path }} />
-          <SimpleInput label={"len"} value={len} {...{ input, path }} />
-          {withHexInput({ input, path })}
+          <SimpleInput label={label} value={inputValue} {...{ input, meta }} />
+          <SimpleInput label={"len"} value={len} {...{ input, meta }} />
+          {extraInput({ input, meta })}
         </div>
       )
     }
@@ -141,8 +149,8 @@ export const Input: FC<FullProps> = ({
 
   return (
     <>
-      <SimpleInput label={label} value={inputValue} {...{ input, path }} />
-      {withHexInput({ input, path })}
+      <SimpleInput label={label} value={inputValue} {...{ input, meta }} />
+      {extraInput({ input, meta })}
     </>
   )
 }
