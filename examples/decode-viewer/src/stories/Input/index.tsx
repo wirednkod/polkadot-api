@@ -1,5 +1,4 @@
 import { FC, useState } from "react"
-import "./index.scss"
 import {
   AccountIdDecoded,
   BigNumberDecoded,
@@ -11,6 +10,8 @@ import {
   StringDecoded,
   VoidDecoded,
 } from "./types"
+
+import "./index.scss"
 
 type SimpleType =
   | VoidDecoded["codec"]
@@ -60,7 +61,7 @@ const withHexInput = ({ input, path }: CommonProps) => {
           )}
         </div>
         <button className="show-button" onClick={() => setShow(!show)}>
-          show
+          {show ? "Show" : "Hide"}
         </button>
       </>
     )
