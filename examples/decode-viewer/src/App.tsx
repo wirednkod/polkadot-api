@@ -15,7 +15,7 @@ export const App = () => {
         label={""}
         value={undefined}
         input={""}
-        path={[]}
+        meta={{ path: [], docs: "" }}
       />
     </>
   )
