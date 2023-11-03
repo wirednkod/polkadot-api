@@ -26,7 +26,10 @@ export const Primary: Story = {
 
     input:
       "0x01590100004901415050524f56455f52464328303030352c3963626162666138303539386432393335383330633039633138653061306534656438323237623863386637343466316634613431643835393762623664343429",
-    path: ["path", "some"],
+    meta: {
+      path: ["path", "some"],
+      docs: "here are some docs that need to be docs but its not docs its just some text",
+    },
   },
 }
 

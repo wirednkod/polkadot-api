@@ -60,12 +60,12 @@ const extraInput = ({ input, meta }: CommonProps) => {
             margin: "0.5rem 0 0 1rem",
           }}
         >
-          {input && <SimpleInput value={input} label={"input"} smaller />}
+          {input && <SimpleInput value={input} label={"Input"} smaller />}
           {meta?.path?.length && (
-            <SimpleInput value={meta?.path?.join("/")} label={"path"} smaller />
+            <SimpleInput value={meta?.path?.join("/")} label={"Path"} smaller />
           )}
           {meta?.docs?.length && (
-            <SimpleInput value={meta?.docs} label={"path"} smaller />
+            <SimpleInput value={meta?.docs} label={"Docs"} smaller />
           )}
         </div>
         <button className="show-button" onClick={() => setShow(!show)}>
